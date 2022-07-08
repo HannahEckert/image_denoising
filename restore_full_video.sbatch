@@ -26,18 +26,16 @@ do
 done
 
 # Unpack the flag into an actual command
-CMD_DIR="/scratch/neurobiology/zimmer/hannah/repos/image_denoising/"
+CMD_DIR="/scratch/neurobiology/zimmer/hannah/repos/image_denoising"
 
-CMD="${CMD_DIR}/${CMD_DICT[$step_reference]}"
-FULL_CMD="python $CMD with project_path=$project_path"
-
-echo "Running step $step_reference using full command:"
+CMD="${CMD_DIR}/restore_full_video.py"
+FULL_CMD="python $CMD --project_path $project_path"
 echo "$FULL_CMD"
 
 if [ "$is_dry_run" ]; then
   echo "Dry run with command: $FULL_CMD"
 else
-  python "$CMD" with project_path="$project_path"
+  python "$CMD" --project_path "$project_path"
 fi
 
 date
