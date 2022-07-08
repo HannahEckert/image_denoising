@@ -45,5 +45,9 @@ def csbdeep_predict_using_config(project_cfg, fname_for_saving, model_name='my_m
     project_dat = ProjectData.load_final_project_data_from_config(project_cfg)
     video_dat = project_dat.red_data
 
-    csbdeep_predict(video_dat, fname=fname_for_saving, model_name='my_model',
+    csbdeep_predict(video_dat, fname=f"{fname_for_saving}_red", model_name='my_model',
+                    path="/scratch/neurobiology/zimmer/hannah/repos/CSBDeep/examples/denoising3D/models")
+
+    video_dat = project_dat.green_data
+    csbdeep_predict(video_dat, fname=f"{fname_for_saving}_green", model_name='my_model',
                     path="/scratch/neurobiology/zimmer/hannah/repos/CSBDeep/examples/denoising3D/models")
