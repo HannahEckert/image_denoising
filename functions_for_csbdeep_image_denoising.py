@@ -1,14 +1,7 @@
 from __future__ import print_function, unicode_literals, absolute_import, division
-import numpy as np
-import matplotlib.pyplot as plt
-%matplotlib inline
-%config InlineBackend.figure_format = 'retina'
 
-from tifffile import imread
-from csbdeep.utils import Path, download_and_extract_zip_file, plot_some
-from csbdeep.io import save_tiff_imagej_compatible
+
 from csbdeep.models import CARE
-import zarr
 from tqdm import tqdm
 from segmentation.util.utils_pipeline import _create_or_continue_zarr
 from wbfm.utils.general.preprocessing.bounding_boxes import get_bounding_box_via_gaussian_blurring
