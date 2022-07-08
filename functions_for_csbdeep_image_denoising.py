@@ -10,8 +10,7 @@ from wbfm.utils.projects.project_config_classes import ModularProjectConfig
 from wbfm.utils.projects.finished_project_data import ProjectData
 
 
-def csbdeep_predict_volume(volume, model_name='my_model',
-                           path="/scratch/neurobiology/zimmer/hannah/repos/CSBDeep/examples/denoising3D/models"):
+def csbdeep_predict_volume(volume, model):
     # volume: takes np.array of dim (z,y,x)
     # model_name:str folder name of predicted model
     # path: to dir that contains the model
@@ -20,10 +19,7 @@ def csbdeep_predict_volume(volume, model_name='my_model',
     boxed_volume = volume[:, box[0]:box[2], box[1]:box[3]]
 
     axes = 'ZYX'
-    model = CARE(config=None, name=model_name, basedir=path)
-
     restored = model.predict(boxed_volume, axes)
-
     restored_big = volume.copy()
     restored_big[:, box[0]:box[2], box[1]:box[3]] = restored
 
@@ -35,8 +31,9 @@ def csbdeep_predict(video, fname, model_name='my_model',
     restored_video = _create_or_continue_zarr(fname + ".zarr", num_frames=video.shape[0], num_slices=video.shape[1],
                                               x_sz=video.shape[2], y_sz=video.shape[3], mode='w-')
 
+    model = CARE(config=None, name=model_name, basedir=path)
     for i in tqdm(range(video.shape[0])):
-        volume = csbdeep_predict_volume(video[i, :, :], model_name=model_name, path=path)
+        volume = csbdeep_predict_volume(video[i, :, :], model=model)
         restored_video[i, :, :, :] = volume
 
     return restored_video
